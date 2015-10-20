@@ -49,7 +49,10 @@ class ApplyCommand extends Command {
 
         if ($directive) {
 
-            $encoded = file_get_contents($storage->path($directive) . '.json');
+            if(! $storage->fileExists($storage->path($directive))) {
+                throw new InvalidArgumentException($storage->path($directive) . ".json file is not found");
+            }
+            $encoded = @file_get_contents($storage->path($directive) . '.json');
 
             if(! Json::valid($encoded)) {
                 throw new InvalidArgumentException($storage->path($directive) . ".json file is not valid");
@@ -64,7 +67,6 @@ class ApplyCommand extends Command {
                 }
 
                 foreach($directives as $directive) {
-                    //var_dump($directive['type']);
                     $refDirective = new ReflectionClass('\\Commander\\Generates\\Generate' . ucfirst($directive['type']));
 
                     echo $directive['name'] . ' running...';

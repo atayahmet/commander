@@ -49,4 +49,9 @@ class Storage {
 		return $this->isEnabled() ? $this->storage.$this->sep.$suffix : '';
 	}
 
+	public function fileExists($filePath)
+	{
+		return file_exists($filePath);
+	}
+
 }
