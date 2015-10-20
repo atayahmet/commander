@@ -1,0 +1,27 @@
+[
+	{
+		"type": "class",
+		"name": "Create causal class",
+		"methods": [
+			"index", 
+			"create", 
+			"store", 
+			"show"
+		],
+		"extends": "MainController",
+		"implements": "ControllerInterface",
+		"annotaions": {
+			"index": "Home page",
+			"create": "Create new blog",
+			"store": "Add to database",
+			"show": "Blog detail"
+		}
+	},
+	{
+		"name": "custom commands",
+		"type": "command",
+		"commands": [
+			"php commander"
+		]
+	}
+]
