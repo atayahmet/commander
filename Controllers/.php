@@ -1,0 +1,7 @@
+<?php {NAMESPACE}
+
+class {CLASS_NAME} {EXTENDS} {IMPLEMENTS} {
+	
+	{METHODS}
+
+}

@@ -20,15 +20,15 @@ class ApplyCommand extends Command {
             ->setName('apply')
             ->setDescription('Proccess directive of defined')
             ->addArgument(
-                'directive',
-                InputArgument::REQUIRED,
+                'name',
+                InputArgument::OPTIONAL,
                 'Who do you want to apply?'
             )
             ->addOption(
-               'yell',
-               null,
-               InputOption::VALUE_NONE,
-               'If set, the task will yell in uppercase letters'
+                'directive',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Who do you want to applyxx?'
             );
     }
 
@@ -45,14 +45,14 @@ class ApplyCommand extends Command {
             continue;
         }
 
-        $directive = $input->getArgument('directive');
+        $directive = $input->getOption('directive');
 
         if ($directive) {
 
             if(! $storage->fileExists($storage->path($directive))) {
                 throw new InvalidArgumentException($storage->path($directive) . ".json file is not found");
             }
-            $encoded = @file_get_contents($storage->path($directive) . '.json');
+            $encoded = @file_get_contents($storage->path($directive));
 
             if(! Json::valid($encoded)) {
                 throw new InvalidArgumentException($storage->path($directive) . ".json file is not valid");
@@ -60,34 +60,28 @@ class ApplyCommand extends Command {
 
             $directives = Json::decode($encoded);
 
-            try {
-
-                if(!is_array(reset($directives))) {
-                    $directives = [$directives];
-                }
-
-                foreach($directives as $directive) {
-                    $refDirective = new ReflectionClass('\\Commander\\Generates\\Generate' . ucfirst($directive['type']));
-
-                    echo $directive['name'] . ' running...';
-                    call_user_func_array(array($refDirective->newInstance(), "run"), $directive);
-                }
-
-            }
-            catch(ReflectionException $e) {
-                throw new InvalidArgumentException("Undefined type: " . $directive[0]['type']);
-                
+            if(!is_array(reset($directives))) {
+                $directives = [$directives];
             }
 
+            foreach($directives as $directive) {
+
+                $refDirective = new ReflectionClass('\\Commander\\Generates\\Generate' . ucfirst($directive['type']));
+
+                echo $directive['description'] . ' running...'."\n";
+                call_user_func_array(array($refDirective->newInstance($input, $output), "run"), [$directive, $input]);
+            }
+           
         } else {
             $text = 'Hello';
         }
 
+        /*
         if ($input->getOption('yell')) {
             $text = strtoupper($text);
-        }
+        }*/
 
-        //$output->writeln($text);
+       // $output->writeln('hello');
     }
 
 }

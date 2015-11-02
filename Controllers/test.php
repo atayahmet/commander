@@ -1,0 +1,6 @@
+<?php
+class {CLASS_NAME} {EXTENDS} {IMPLEMENTS} {
+	
+	{METHODS}
+
+}

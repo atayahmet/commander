@@ -2,7 +2,6 @@
 
 abstract class Generate {
 
-	abstract public function run();
-
-
+	abstract public function run(array $directives);
+	
 }

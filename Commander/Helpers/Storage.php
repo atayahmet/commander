@@ -16,6 +16,12 @@ class Storage {
 	 */
 	protected $sep = DIRECTORY_SEPARATOR;
 
+	/**
+	 * File extension
+	 * @var string
+	 */
+	protected $ext = '.json';
+
 	public function __construct()
 	{
 	}
@@ -46,12 +52,20 @@ class Storage {
 
 	public function path($suffix ='' )
 	{
-		return $this->isEnabled() ? $this->storage.$this->sep.$suffix : '';
+		return $this->isEnabled() ? $this->storage.$this->sep.$suffix.$this->ext($suffix) : '';
 	}
 
 	public function fileExists($filePath)
 	{
 		return file_exists($filePath);
+	}
+
+	public function ext($filename = '')
+	{
+		if(empty($filename)) {
+			return;
+		}
+		return ! preg_match("/\'. $this->ext. '$/", $filename) ? $this->ext : '';
 	}
 
 }

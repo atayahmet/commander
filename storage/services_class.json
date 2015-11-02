@@ -1,7 +1,7 @@
 [
 	{
 		"type": "class",
-		"name": "Create causal class",
+		"description": "Create causal class",
 		"methods": [
 			"index", 
 			"create", 
@@ -15,13 +15,14 @@
 			"create": "Create new blog",
 			"store": "Add to database",
 			"show": "Blog detail"
-		}
+		},
+		"path": "Controllers/"
 	},
 	{
-		"name": "custom commands",
+		"description": "custom commands",
 		"type": "command",
 		"commands": [
-			"php commander"
+			"php composer"
 		]
 	}
 ]
